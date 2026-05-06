@@ -89,12 +89,14 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
     <div className="modal-overlay">
       <div className="modal-content" style={{ maxWidth: selectedAlert ? '900px' : '800px', transition: 'max-width 0.3s ease' }}>
         
-        <div className="hud-title" style={{ justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Database size={20} />
-            {selectedAlert ? `DATABASE : ${t(language, 'INCIDENT_DETAILS')}` : `DATABASE : ${t(language, 'INCIDENT_HISTORY')} (${alerts.length})`}
+        <div className="hud-title" style={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+            <Database size={20} style={{ flexShrink: 0 }} />
+            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {selectedAlert ? `DATABASE : ${t(language, 'INCIDENT_DETAILS')}` : `DATABASE : ${t(language, 'INCIDENT_HISTORY')} (${alerts.length})`}
+            </span>
           </div>
-          <button className="cyber-btn" onClick={onClose} style={{ padding: '4px 8px' }}>
+          <button className="cyber-btn" onClick={onClose} style={{ padding: '4px 8px', flexShrink: 0 }}>
             <X size={16} />
           </button>
         </div>

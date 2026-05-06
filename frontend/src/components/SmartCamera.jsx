@@ -73,6 +73,15 @@ export default function SmartCamera({ onAnomaly, isDetectionActive, videoUrl, se
       canvasCtx.save();
       try {
         if (results.image) {
+          const imgW = results.image.width || results.image.videoWidth || 1280;
+          const imgH = results.image.height || results.image.videoHeight || 720;
+          
+          // Ajuster la taille du canvas à la source pour éviter la distorsion (écrasement de l'image)
+          if (canvasElement.width !== imgW && imgW > 0) {
+            canvasElement.width = imgW;
+            canvasElement.height = imgH;
+          }
+
           canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
           canvasCtx.globalCompositeOperation = 'source-over';
           canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
