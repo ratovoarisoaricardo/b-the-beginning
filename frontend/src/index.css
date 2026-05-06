@@ -157,8 +157,8 @@ body {
     padding: 10px 12px; /* Plus grand pour le tactile */
   }
 
-  .cyber-btn span {
-    display: none; 
+  .control-bar .cyber-btn span {
+    display: none; /* Cache uniquement le texte dans la barre de contrôle, pas dans les modales */
   }
 
   .camera-select {
@@ -437,6 +437,15 @@ body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .details-media {
