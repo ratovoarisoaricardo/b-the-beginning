@@ -43,6 +43,21 @@ export default function SmartCamera({ onAnomaly, isDetectionActive, videoUrl, se
 
     if (!canvasElement || !canvasCtx) return;
 
+    if (!isDetectionActive) {
+      setIsReady(false);
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.fillStyle = '#050505';
+      canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+      
+      // Dessiner du "bruit statique" ou un simple message "OFFLINE"
+      canvasCtx.fillStyle = '#ff003c';
+      canvasCtx.font = '24px "Share Tech Mono", monospace';
+      canvasCtx.textAlign = 'center';
+      canvasCtx.fillText("SYSTEM OFFLINE", canvasElement.width / 2, canvasElement.height / 2);
+      
+      return () => {}; // Pas de nettoyage nécessaire
+    }
+
     const pose = new Pose({
       locateFile: (file) => `/mediapipe/pose/${file}`
     });
