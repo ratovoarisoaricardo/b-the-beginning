@@ -73,18 +73,41 @@ export default function SmartCamera({ onAnomaly, isDetectionActive, videoUrl, se
       canvasCtx.save();
       try {
         if (results.image) {
-          const imgW = results.image.width || results.image.videoWidth || 1280;
-          const imgH = results.image.height || results.image.videoHeight || 720;
+          // On garde une résolution fixe de 16:9 pour le canvas (1280x720)
+          // mais on dessine l'image source en "cover" pour éviter toute distorsion.
+          const targetW = 1280;
+          const targetH = 720;
           
-          // Ajuster la taille du canvas à la source pour éviter la distorsion (écrasement de l'image)
-          if (canvasElement.width !== imgW && imgW > 0) {
-            canvasElement.width = imgW;
-            canvasElement.height = imgH;
+          if (canvasElement.width !== targetW) {
+            canvasElement.width = targetW;
+            canvasElement.height = targetH;
           }
 
-          canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+          const imgW = results.image.width || results.image.videoWidth || targetW;
+          const imgH = results.image.height || results.image.videoHeight || targetH;
+          
+          const targetRatio = targetW / targetH;
+          const imgRatio = imgW / imgH;
+          
+          let sw, sh, sx, sy;
+          
+          if (imgRatio > targetRatio) {
+            // Source plus large que cible
+            sh = imgH;
+            sw = imgH * targetRatio;
+            sx = (imgW - sw) / 2;
+            sy = 0;
+          } else {
+            // Source plus haute que cible
+            sw = imgW;
+            sh = imgW / targetRatio;
+            sx = 0;
+            sy = (imgH - sh) / 2;
+          }
+
+          canvasCtx.clearRect(0, 0, targetW, targetH);
           canvasCtx.globalCompositeOperation = 'source-over';
-          canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+          canvasCtx.drawImage(results.image, sx, sy, sw, sh, 0, 0, targetW, targetH);
           
           // Sauvegarde dans le buffer circulaire (RAM uniquement)
           // On réduit la taille et la qualité pour préserver la RAM

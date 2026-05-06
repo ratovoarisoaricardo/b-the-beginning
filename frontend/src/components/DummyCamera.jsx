@@ -55,7 +55,7 @@ export default function DummyCamera({ name }) {
   }, [name]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', border: '1px solid rgba(0,240,255,0.2)', background: '#000' }}>
+    <div className="secondary-camera">
       <canvas ref={canvasRef} width={320} height={240} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,

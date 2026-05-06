@@ -10,7 +10,7 @@ import DummyCamera from './components/DummyCamera'
 import AlertPanel from './components/AlertPanel'
 import ControlPanel from './components/ControlPanel'
 import HistoryModal from './components/HistoryModal'
-import { ShieldAlert, Activity, Database, Terminal, Power } from 'lucide-react'
+import { ShieldAlert, Activity, Database, Terminal, Power, Play, Square } from 'lucide-react'
 import { playBoot, playClick } from './utils/soundEffects'
 import { t } from './utils/translations'
 
@@ -230,6 +230,23 @@ function App() {
 
       <div className="system-copyright">
         © 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO — {t(language, 'ALL_RIGHTS')}
+      </div>
+
+      <div className="mobile-bottom-nav">
+        <div className="nav-item" onClick={handleShutdown}>
+          <Power size={20} />
+          <span>{t(language, 'SHUTDOWN')}</span>
+        </div>
+        <div 
+          className={`nav-item ${isDetectionActive ? 'active' : ''}`} 
+          onClick={() => { playClick(); setIsDetectionActive(!isDetectionActive); }}
+        >
+          {isDetectionActive ? <Square size={20} /> : <Play size={20} />}
+        </div>
+        <div className="nav-item" onClick={toggleHistory}>
+          <Database size={20} />
+          <span>{t(language, 'FULL_LOGS')}</span>
+        </div>
       </div>
 
       {showHistory && (

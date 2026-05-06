@@ -45,9 +45,9 @@ export default function ControlPanel({
       <button 
         className={`cyber-btn ${isDetectionActive ? 'danger' : ''}`}
         onClick={() => { playClick(); setIsDetectionActive(!isDetectionActive); }}
+        title={isDetectionActive ? t(language, 'STOP_DETECTION') : t(language, 'START_DETECTION')}
       >
         {isDetectionActive ? <Square size={16} /> : <Play size={16} />}
-        <span>{isDetectionActive ? t(language, 'STOP_DETECTION') : t(language, 'START_DETECTION')}</span>
       </button>
 
       {/* Sélection de la Caméra Locale */}
