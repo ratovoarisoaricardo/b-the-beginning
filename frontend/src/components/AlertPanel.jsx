@@ -9,51 +9,42 @@ import { t } from '../utils/translations'
 
 export default function AlertPanel({ alerts, language }) {
   return (
-    <div style={{ flex: 1, padding: '15px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <div className="alert-list">
       {alerts.length === 0 ? (
-        <div style={{ color: 'var(--text-dim)', textAlign: 'center', marginTop: '20px' }}>
+        <div className="empty-alerts">
           {t(language, 'NO_ANOMALIES')}
         </div>
       ) : (
         alerts.map((alert, index) => (
-          <div key={index} style={{ 
-            background: 'rgba(255, 0, 60, 0.1)', 
-            borderLeft: '4px solid var(--alert-red)', 
-            padding: '12px',
-            animation: index === 0 ? 'slideIn 0.3s ease-out' : 'none',
-            display: 'flex',
-            gap: '15px'
-          }}>
+          <div key={index} className={`alert-card ${index === 0 ? 'new-alert' : ''}`}>
             {/* Miniature du Snapshot */}
             {alert.image && (
-              <img 
-                src={alert.image} 
-                alt="Snapshot" 
-                style={{ width: '80px', height: '60px', objectFit: 'cover', border: '1px solid var(--alert-red)' }} 
-              />
+              <div className="alert-thumbnail">
+                <img src={alert.image} alt="Snapshot" />
+              </div>
             )}
             
-            <div style={{ flex: 1 }}>
-              <div style={{ color: 'var(--alert-red)', fontSize: '12px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div className="alert-content">
+              <div className="alert-timestamp">
                 <AlertTriangle size={14} />
                 {alert.timestamp}
               </div>
-              <div style={{ color: '#fff', fontSize: '14px', marginBottom: '8px' }}>
+              <div className="alert-msg">
                 {t(language, alert.msgKey || 'ANOMALY_DETECTED')}
               </div>
               
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <div className="alert-badges">
                 {alert.agentDecision ? (
-                  <span style={{ fontSize: '10px', padding: '1px 5px', background: 'var(--border-glow)', color: '#000', fontWeight: 'bold' }}>
+                  <span className="badge decision-badge-fixed">
                     {t(language, alert.agentDecision)}
                   </span>
                 ) : (
-                  <span style={{ fontSize: '10px', padding: '1px 5px', border: '1px solid var(--alert-red)', color: 'var(--alert-red)' }}>
+                  <span className="badge pending-badge">
                     {t(language, 'AGENT_DECISION')} [!]
                   </span>
                 )}
                 {alert.exitDirection && alert.exitDirection !== 'LOST' && (
-                  <span style={{ fontSize: '10px', color: 'var(--text-dim)' }}>
+                  <span className="badge exit-badge-dim">
                     {t(language, 'EXIT_DIR')}: {t(language, `EXIT_${alert.exitDirection}`)}
                   </span>
                 )}

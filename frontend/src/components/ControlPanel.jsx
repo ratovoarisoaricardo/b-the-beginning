@@ -41,28 +41,20 @@ export default function ControlPanel({
   }, [])
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      gap: '15px', 
-      alignItems: 'center', 
-      padding: '10px 20px', 
-      borderBottom: '1px solid rgba(0, 240, 255, 0.2)',
-      background: 'rgba(0, 240, 255, 0.05)'
-    }}>
+    <div className="control-bar">
       <button 
         className={`cyber-btn ${isDetectionActive ? 'danger' : ''}`}
         onClick={() => { playClick(); setIsDetectionActive(!isDetectionActive); }}
       >
         {isDetectionActive ? <Square size={16} /> : <Play size={16} />}
-        {isDetectionActive ? t(language, 'STOP_DETECTION') : t(language, 'START_DETECTION')}
+        <span>{isDetectionActive ? t(language, 'STOP_DETECTION') : t(language, 'START_DETECTION')}</span>
       </button>
 
       {/* Sélection de la Caméra Locale */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="control-group">
         <Camera size={18} color="var(--border-glow)" />
         <select 
-          className="cyber-input" 
-          style={{ width: '200px', cursor: 'pointer' }}
+          className="cyber-input camera-select" 
           value={selectedDeviceId}
           onChange={(e) => { playClick(); setSelectedDeviceId(e.target.value); }}
           disabled={videoUrl !== ''}
@@ -79,7 +71,7 @@ export default function ControlPanel({
         </select>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+      <div className="control-group url-group">
         <Link2 size={18} color="var(--border-glow)" />
         <input 
           type="text" 
@@ -91,39 +83,35 @@ export default function ControlPanel({
       </div>
 
       {/* Mode Alarme */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+      <div className="control-group">
         <button 
           title="Mode Sirène"
-          className={`cyber-btn ${alarmMode === 'siren' ? 'active' : ''}`}
+          className={`cyber-btn icon-btn ${alarmMode === 'siren' ? 'active' : ''}`}
           onClick={() => { playClick(); setAlarmMode('siren'); }}
-          style={{ padding: '6px', minWidth: 'auto', opacity: alarmMode === 'siren' ? 1 : 0.5 }}
         >
           <Bell size={16} />
         </button>
         <button 
           title="Mode Furtif"
-          className={`cyber-btn ${alarmMode === 'stealth' ? 'active' : ''}`}
+          className={`cyber-btn icon-btn ${alarmMode === 'stealth' ? 'active' : ''}`}
           onClick={() => { playClick(); setAlarmMode('stealth'); }}
-          style={{ padding: '6px', minWidth: 'auto', opacity: alarmMode === 'stealth' ? 1 : 0.5 }}
         >
           <BellOff size={16} />
         </button>
         <button 
           title="Voix Système"
-          className={`cyber-btn ${alarmMode === 'voice' ? 'active' : ''}`}
+          className={`cyber-btn icon-btn ${alarmMode === 'voice' ? 'active' : ''}`}
           onClick={() => { playClick(); setAlarmMode('voice'); }}
-          style={{ padding: '6px', minWidth: 'auto', opacity: alarmMode === 'voice' ? 1 : 0.5 }}
         >
           <Mic size={16} />
         </button>
       </div>
 
       {/* Sélecteur de Langue */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+      <div className="control-group lang-group">
         <Globe size={18} color="var(--border-glow)" />
         <select 
-          className="cyber-input" 
-          style={{ width: '60px', padding: '5px', cursor: 'pointer', textAlign: 'center' }}
+          className="cyber-input lang-select" 
           value={language}
           onChange={(e) => { playClick(); setLanguage(e.target.value); }}
         >
@@ -134,6 +122,7 @@ export default function ControlPanel({
           <option value="zh">ZH</option>
           <option value="ja">JA</option>
           <option value="mg">MG</option>
+          <option value="hi">HI</option>
         </select>
       </div>
     </div>

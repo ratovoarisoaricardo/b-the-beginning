@@ -153,6 +153,9 @@ function App() {
             <div className="blink-cursor">_</div>
           </div>
         )}
+        <div className="boot-copyright">
+          © 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO — {t(language, 'ALL_RIGHTS')}
+        </div>
       </div>
     )
   }
@@ -162,16 +165,15 @@ function App() {
     <>
       <div className={`hud-container ${isAnomaly ? 'alert-active' : ''}`}>
         
-        <div className="hud-panel" style={{ flex: 3 }}>
+        <div className="hud-panel main-section">
           <div className={`hud-title ${isAnomaly ? 'alert-text' : ''}`} style={{ justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               {isAnomaly ? <ShieldAlert size={20} /> : <Activity size={20} />}
               {t(language, 'MULTI_FEED')} - {isAnomaly ? t(language, 'THREAT_CRITICAL') : (isDetectionActive ? t(language, 'STATUS_SECURE') : t(language, 'STATUS_OFFLINE'))}
             </div>
             <button 
-              className="cyber-btn danger" 
+              className="shutdown-btn" 
               onClick={handleShutdown}
-              style={{ padding: '4px 8px', minWidth: 'auto', border: 'none', background: 'transparent' }}
               title={t(language, 'SHUTDOWN')}
             >
               <Power size={20} />
@@ -193,9 +195,9 @@ function App() {
             setAgentPhone={setAgentPhone}
           />
 
-          <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gridTemplateRows: '1fr 1fr 1fr', gap: '10px', padding: '0 20px 20px', flex: 1, overflow: 'hidden' }}>
+          <div className="camera-grid">
             
-            <div style={{ gridRow: '1 / span 3', border: '1px solid var(--border-glow)' }}>
+            <div className="primary-camera">
               <SmartCamera 
                 onAnomaly={handleAnomaly} 
                 isDetectionActive={isDetectionActive}
@@ -213,17 +215,21 @@ function App() {
 
         </div>
 
-        <div className="hud-panel" style={{ flex: 1 }}>
+        <div className="hud-panel logs-section">
           <div className="hud-title" style={{ justifyContent: 'space-between' }}>
             <span>{t(language, 'SYS_LOGS')}</span>
             <button className="cyber-btn" onClick={toggleHistory} style={{ padding: '4px 8px', fontSize: '12px' }}>
               <Database size={14} />
-              {t(language, 'FULL_LOGS')}
+              <span>{t(language, 'FULL_LOGS')}</span>
             </button>
           </div>
           <AlertPanel alerts={alerts.slice(0, 10)} language={language} />
         </div>
 
+      </div>
+
+      <div className="system-copyright">
+        © 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO — {t(language, 'ALL_RIGHTS')}
       </div>
 
       {showHistory && (

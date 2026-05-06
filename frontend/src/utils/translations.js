@@ -74,7 +74,8 @@ export const translations = {
     SHUTDOWN_3: "DÉCONNEXION DES AGENTS...",
     SHUTDOWN_4: "SAUVEGARDE DES LOGS D'AUDIT...",
     SHUTDOWN_5: "FERMETURE DU NOYAU RIS...",
-    SHUTDOWN_6: "SYSTÈME ÉTEINT. AU REVOIR."
+    SHUTDOWN_6: "SYSTÈME ÉTEINT. AU REVOIR.",
+    ALL_RIGHTS: "Tous droits réservés."
   },
   en: {
     BOOT_1: "LOADING RIS KERNEL V4.2.0...",
@@ -140,7 +141,8 @@ export const translations = {
     SHUTDOWN_3: "DISCONNECTING AGENTS...",
     SHUTDOWN_4: "SAVING AUDIT LOGS...",
     SHUTDOWN_5: "SHUTTING DOWN RIS KERNEL...",
-    SHUTDOWN_6: "SYSTEM OFFLINE. GOODBYE."
+    SHUTDOWN_6: "SYSTEM OFFLINE. GOODBYE.",
+    ALL_RIGHTS: "All rights reserved."
   },
   es: {
     BOOT_1: "CARGANDO KERNEL RIS V4.2.0...",
@@ -206,7 +208,8 @@ export const translations = {
     SHUTDOWN_3: "DESCONECTANDO AGENTES...",
     SHUTDOWN_4: "GUARDANDO REGISTROS DE AUDITORÍA...",
     SHUTDOWN_5: "CERRANDO KERNEL RIS...",
-    SHUTDOWN_6: "SISTEMA APAGADO. ADIÓS."
+    SHUTDOWN_6: "SISTEMA APAGADO. ADIÓS.",
+    ALL_RIGHTS: "Todos los derechos reservados."
   },
   pt: {
     BOOT_1: "CARREGANDO KERNEL RIS V4.2.0...",
@@ -272,7 +275,8 @@ export const translations = {
     SHUTDOWN_3: "DESCONECTANDO AGENTES...",
     SHUTDOWN_4: "SALVANDO LOGS DE AUDITORIA...",
     SHUTDOWN_5: "ENCERRANDO KERNEL RIS...",
-    SHUTDOWN_6: "SISTEMA OFFLINE. ADEUS."
+    SHUTDOWN_6: "SISTEMA OFFLINE. ADEUS.",
+    ALL_RIGHTS: "Todos os direitos reservados."
   },
   zh: {
     BOOT_1: "正在加载 RIS 内核 V4.2.0...",
@@ -338,7 +342,8 @@ export const translations = {
     SHUTDOWN_3: "正在断开特勤连接...",
     SHUTDOWN_4: "正在保存审计日志...",
     SHUTDOWN_5: "正在关闭 RIS 内核...",
-    SHUTDOWN_6: "系统已离线。再见。"
+    SHUTDOWN_6: "系统已离线。再见。",
+    ALL_RIGHTS: "版权所有。"
   },
   ja: {
     BOOT_1: "RISカーネル V4.2.0 をロード中...",
@@ -404,7 +409,8 @@ export const translations = {
     SHUTDOWN_3: "エージェントを切断中...",
     SHUTDOWN_4: "監査ログを保存中...",
     SHUTDOWN_5: "RISカーネルを終了中...",
-    SHUTDOWN_6: "システム終了。さようなら。"
+    SHUTDOWN_6: "システム終了。さようなら。",
+    ALL_RIGHTS: "全著作権所有。"
   },
   mg: {
     BOOT_1: "AMPIDIRANA NY KERNEL RIS V4.2.0...",
@@ -470,7 +476,75 @@ export const translations = {
     SHUTDOWN_3: "MAMIDY NY FIFANDRAISANA AGENT...",
     SHUTDOWN_4: "MITAHIRY NY LOGS...",
     SHUTDOWN_5: "MAMIDY NY KERNEL RIS...",
-    SHUTDOWN_6: "SYSTEMA MATY. VELOMA."
+    SHUTDOWN_6: "SYSTEMA MATY. VELOMA.",
+    ALL_RIGHTS: "Zo rehetra voatokana."
+  },
+  hi: {
+    BOOT_1: "RIS कर्नेल V4.2.0 लोड हो रहा है...",
+    BOOT_2: "सुरक्षित कनेक्शन स्थापित किया जा रहा है...",
+    BOOT_3: "न्यूरल नेटवर्क शुरू किया जा रहा है...",
+    BOOT_4: "ऑप्टिकल सेंसर कैलिब्रेट किए जा रहे हैं...",
+    BOOT_5: "मेनफ्रेम फ़ायरवॉल को बायपास किया जा रहा है...",
+    BOOT_6: "पहुँच की अनुमति दी गई।",
+    CLICK_TO_INIT: "> सिस्टम शुरू करने के लिए कहीं भी क्लिक करें",
+    SYS_LOGS: "सिस्टम लॉग",
+    FULL_LOGS: "पूर्ण लॉग",
+    MULTI_FEED: "RIS मल्टी-फ़ीड सिस्टम",
+    THREAT_CRITICAL: "खतरे का स्तर: गंभीर",
+    STATUS_SECURE: "स्थिति: सुरक्षित",
+    STATUS_OFFLINE: "स्थिति: डिटेक्शन ऑफ़लाइन",
+    START_DETECTION: "डिटेक्शन शुरू करें",
+    STOP_DETECTION: "डिटेक्शन रोकें",
+    URL_PLACEHOLDER: "रिमोट स्ट्रीम URL (HLS, MJPEG) - वेबकैम के लिए खाली छोड़ें",
+    DETECTING_CAMERAS: "कैमरों का पता लगाया जा रहा है...",
+    CAMERA: "कैमरा",
+    INIT_CORE: "RIS कोर शुरू किया जा रहा है...",
+    DETECTION_OFFLINE: "डिटेक्शन ऑफ़लाइन",
+    ID_UNKNOWN: "ID: अज्ञात_विषय",
+    THREAT_ANALYZING: "खतरा: विश्लेषण किया जा रहा है...",
+    THREAT_LETHAL: "खतरा: घातक (99%)",
+    MSG_COMBAT_POSTURE: "संदिग्ध गतिविधि: मुकाबला मुद्रा का पता चला।",
+    NO_ANOMALIES: "कोई विसंगति नहीं मिली",
+    INCIDENT_HISTORY: "RIS घटना इतिहास",
+    INCIDENT_DETAILS: "घटना का विवरण",
+    TIMESTAMP: "समयstamp:",
+    EVENT: "घटना:",
+    SYSTEM_ANALYSIS: "सिस्टम विश्लेषण: लक्ष्य ने एक गतिविधि की जिसे मुकाबला या आक्रामक मुद्रा के रूप में पहचाना गया। सुरक्षा प्रोटोकॉल सक्रिय।",
+    CLOSE: "बंद करें",
+    CLEAR_LOGS: "साफ़ करें",
+    VOICE_ALERT: "खतरे का पता चला। सुरक्षा प्रोटोकॉल सक्रिय।",
+    VIEW_CLIP: "कैमरा देखें (क्लिप)",
+    REPLAY: "फिर से चलाएँ",
+    PLAY: "चलाएँ",
+    PAUSE: "रोकें",
+    AGENT_DECISION: "एजेंट का निर्णय",
+    INTERVENTION: "हस्तक्षेप",
+    SURVEILLANCE_MODE: "निगरानी",
+    IGNORE: "अनदेखा करें",
+    TRAJECTORY: "प्रक्षेपवक्र",
+    EXIT_DIR: "बाहर निकलें",
+    EXIT_LEFT: "बाईं ओर",
+    EXIT_RIGHT: "दाईं ओर",
+    EXIT_TOP: "ऊपर की ओर",
+    EXIT_LOST: "दृश्य से बाहर",
+    DECISION_SAVED: "निर्णय सहेजा गया",
+    NO_CLIP: "कोई क्लिप उपलब्ध नहीं है",
+    AGENT_PHONE_PLACEHOLDER: "एजेंट फ़ोन",
+    DISPATCH_AGENT: "एजेंट भेजें",
+    SMS_SENT: "एजेंट को SMS भेजा गया",
+    CALLING: "कॉल किया जा रहा है...",
+    SELECT_ALL: "सभी चुनें",
+    DELETE_SELECTED: "चयनित हटाएं",
+    ZOOM_TRAJECTORY: "प्रक्षेपवक्र ज़ूम",
+    SHUTDOWN: "सिस्टम बंद करें",
+    SHUTTING_DOWN: "बंद हो रहा है...",
+    SHUTDOWN_1: "वीडियो स्ट्रीम रोकी जा रही है...",
+    SHUTDOWN_2: "मेमोरी बफर साफ़ किया जा रहा है...",
+    SHUTDOWN_3: "एजेंटों को डिस्कनेक्ट किया जा रहा है...",
+    SHUTDOWN_4: "ऑडिट लॉग सहेजे जा रहे हैं...",
+    SHUTDOWN_5: "RIS कर्नेल बंद किया जा रहा है...",
+    SHUTDOWN_6: "सिस्टम ऑफ़लाइन। अलविदा。",
+    ALL_RIGHTS: "सर्वाधिकार सुरक्षित。"
   }
 };
 

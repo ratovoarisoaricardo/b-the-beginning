@@ -101,58 +101,57 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
         
         {selectedAlert ? (
           /* --- VUE : DETAILS D'UNE ALERTE --- */
-          <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1, overflowY: 'auto' }}>
+          <div className="modal-body">
             <button 
               className="cyber-btn" 
               onClick={() => { playClick(); setSelectedAlert(null); setShowClip(false); }} 
               style={{ alignSelf: 'flex-start' }}
             >
-              <ArrowLeft size={16} /> {t(language, 'FULL_LOGS')}
+              <ArrowLeft size={16} /> <span>{t(language, 'FULL_LOGS')}</span>
             </button>
             
-            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              <div style={{ flex: 2, minWidth: '300px', border: '2px solid var(--alert-red)', position: 'relative', background: '#000' }}>
+            <div className="details-container">
+              <div className="details-media">
                 {showClip ? (
                   <ClipPlayer clip={selectedAlert.clip} language={language} />
                 ) : (
                   <>
                     <img src={selectedAlert.image} alt="Incident Detail" style={{ width: '100%', height: 'auto', display: 'block' }} />
-                    <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(255,0,60,0.8)', color: '#fff', padding: '5px 10px', fontWeight: 'bold', zIndex: 10 }}>
+                    <div className="threat-badge">
                       <AlertTriangle size={16} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '5px' }} />
                       {t(language, 'THREAT_LETHAL')}
                     </div>
                     <button 
-                      className="cyber-btn" 
+                      className="cyber-btn play-btn" 
                       onClick={() => { playClick(); setShowClip(true); }}
-                      style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.6)', border: '2px solid var(--border-glow)', padding: '15px' }}
                     >
                       <Play size={24} /> {t(language, 'VIEW_CLIP')}
                     </button>
                   </>
                 )}
                 {/* Scanline sur l'image/clip */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.1) 50%)', backgroundSize: '100% 4px', pointerEvents: 'none', zIndex: 5 }} />
+                <div className="scanline-overlay" />
               </div>
               
-              <div style={{ flex: 1, minWidth: '250px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div style={{ background: 'rgba(0, 240, 255, 0.1)', padding: '15px', border: '1px solid var(--border-glow)' }}>
-                  <div style={{ color: 'var(--text-dim)', fontSize: '12px' }}>{t(language, 'TIMESTAMP')}</div>
-                  <div style={{ color: '#fff', fontSize: '24px', letterSpacing: '2px' }}>{selectedAlert.timestamp}</div>
+              <div className="details-info">
+                <div className="info-block info-time">
+                  <div className="info-label">{t(language, 'TIMESTAMP')}</div>
+                  <div className="info-value big">{selectedAlert.timestamp}</div>
                 </div>
 
-                <div style={{ background: 'rgba(255, 0, 60, 0.1)', padding: '15px', border: '1px solid var(--alert-red)' }}>
-                  <div style={{ color: 'var(--alert-red)', fontSize: '12px' }}>{t(language, 'EVENT')}</div>
-                  <div style={{ color: '#fff', fontSize: '18px', marginTop: '5px' }}>{t(language, selectedAlert.msgKey || 'ANOMALY_DETECTED')}</div>
+                <div className="info-block info-event">
+                  <div className="info-label">{t(language, 'EVENT')}</div>
+                  <div className="info-value">{t(language, selectedAlert.msgKey || 'ANOMALY_DETECTED')}</div>
                 </div>
 
                 <div 
-                  style={{ background: 'rgba(0, 240, 255, 0.05)', padding: '15px', border: '1px solid var(--border-glow)', cursor: 'pointer' }}
+                  className="info-block info-trajectory"
                   onClick={() => { playClick(); setShowTrajectoryZoom(true); }}
                 >
-                  <div style={{ color: 'var(--text-dim)', fontSize: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <MapPin size={12} /> {t(language, 'TRAJECTORY')} / {t(language, 'EXIT_DIR')} ({t(language, 'ZOOM_TRAJECTORY')})
+                  <div className="info-label">
+                    <MapPin size={12} /> {t(language, 'TRAJECTORY')} / {t(language, 'EXIT_DIR')}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  <div className="trajectory-preview">
                     <svg width="80" height="60" style={{ background: '#111', border: '1px solid #333' }}>
                       {selectedAlert.trajectory && selectedAlert.trajectory.length > 1 && (
                         <path 
@@ -163,15 +162,15 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
                         />
                       )}
                     </svg>
-                    <div style={{ color: 'var(--alert-red)', fontSize: '12px', fontWeight: 'bold' }}>
+                    <div className="exit-text">
                       {t(language, `EXIT_${selectedAlert.exitDirection || 'LOST'}`)}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(0, 240, 255, 0.05)', padding: '15px', border: '1px solid var(--border-glow)' }}>
-                  <div style={{ color: 'var(--text-dim)', fontSize: '10px', marginBottom: '10px' }}>{t(language, 'AGENT_DECISION')}</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className="info-block info-decision">
+                  <div className="info-label">{t(language, 'AGENT_DECISION')}</div>
+                  <div className="decision-buttons">
                     <button 
                       className={`cyber-btn ${selectedAlert.agentDecision === 'INTERVENTION' ? 'danger active' : ''}`}
                       onClick={() => { 
@@ -179,9 +178,8 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
                         onDecision(selectedAlert.id, 'INTERVENTION');
                         setDispatchAlert(selectedAlert);
                       }}
-                      style={{ fontSize: '12px', justifyContent: 'flex-start' }}
                     >
-                      <ShieldCheck size={14} /> {t(language, 'INTERVENTION')}
+                      <ShieldCheck size={14} /> <span>{t(language, 'INTERVENTION')}</span>
                     </button>
                     
                     <button 
@@ -191,20 +189,18 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
                         onDecision(selectedAlert.id, 'SURVEILLANCE');
                         setDispatchAlert(selectedAlert);
                       }}
-                      style={{ fontSize: '12px', justifyContent: 'flex-start' }}
                     >
-                      <Search size={14} /> {t(language, 'SURVEILLANCE_MODE')}
+                      <Search size={14} /> <span>{t(language, 'SURVEILLANCE_MODE')}</span>
                     </button>
                     <button 
                       className={`cyber-btn ${selectedAlert.agentDecision === 'IGNORE' ? 'active' : ''}`}
                       onClick={() => { playClick(); onDecision(selectedAlert.id, 'IGNORE'); }}
-                      style={{ fontSize: '12px', justifyContent: 'flex-start' }}
                     >
-                      <EyeOff size={14} /> {t(language, 'IGNORE')}
+                      <EyeOff size={14} /> <span>{t(language, 'IGNORE')}</span>
                     </button>
                   </div>
                   {selectedAlert.decisionAt && (
-                    <div style={{ color: 'var(--text-dim)', fontSize: '10px', marginTop: '10px', textAlign: 'right' }}>
+                    <div className="decision-timestamp">
                       {t(language, 'DECISION_SAVED')} : {selectedAlert.decisionAt}
                     </div>
                   )}
@@ -217,91 +213,68 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
           <>
             {/* Header Multi-Select */}
             {alerts.length > 0 && (
-              <div style={{ padding: '10px 20px', borderBottom: '1px solid rgba(0, 240, 255, 0.1)', display: 'flex', alignItems: 'center', gap: '15px', background: 'rgba(0,240,255,0.02)' }}>
+              <div className="log-list-header">
                 <input 
                   type="checkbox" 
                   checked={selectedIds.size === alerts.length && alerts.length > 0} 
                   onChange={handleSelectAll}
-                  style={{ cursor: 'pointer', width: '18px', height: '18px', accentColor: 'var(--border-glow)' }}
+                  className="cyber-checkbox"
                 />
-                <span style={{ fontSize: '12px', color: 'var(--text-dim)' }}>{t(language, 'SELECT_ALL')}</span>
+                <span className="selection-label">{t(language, 'SELECT_ALL')}</span>
                 {selectedIds.size > 0 && (
-                  <span style={{ fontSize: '12px', color: 'var(--alert-red)', fontWeight: 'bold' }}>
+                  <span className="selected-count">
                     ({selectedIds.size} {t(language, 'SELECTED') || 'SELECTED'})
                   </span>
                 )}
               </div>
             )}
 
-            <div style={{ padding: '20px', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="log-list-body">
               {alerts.length === 0 ? (
-                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '40px 0', fontSize: '18px' }}>
+                <div className="empty-logs">
                   {t(language, 'NO_ANOMALIES')}
                 </div>
               ) : (
                 alerts.map((alert, idx) => (
                   <div 
                     key={idx} 
+                    className={`log-item ${selectedIds.has(alert.id) ? 'selected' : ''}`}
                     onClick={() => { playClick(); setSelectedAlert(alert); }}
-                    style={{ 
-                      border: '1px solid rgba(0, 240, 255, 0.2)', 
-                      padding: '10px', 
-                      display: 'flex', 
-                      alignItems: 'center',
-                      gap: '15px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      background: selectedIds.has(alert.id) ? 'rgba(0, 240, 255, 0.15)' : 'rgba(0, 240, 255, 0.05)',
-                      borderColor: selectedIds.has(alert.id) ? 'var(--border-glow)' : 'rgba(0, 240, 255, 0.2)'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedIds.has(alert.id)) {
-                        e.currentTarget.style.background = 'rgba(0, 240, 255, 0.15)';
-                        e.currentTarget.style.borderColor = 'var(--border-glow)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedIds.has(alert.id)) {
-                        e.currentTarget.style.background = 'rgba(0, 240, 255, 0.05)';
-                        e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.2)';
-                      }
-                    }}
                   >
                     <input 
                       type="checkbox" 
                       checked={selectedIds.has(alert.id)}
                       onChange={(e) => handleToggleSelect(alert.id, e)}
                       onClick={(e) => e.stopPropagation()}
-                      style={{ cursor: 'pointer', width: '18px', height: '18px', accentColor: 'var(--border-glow)' }}
+                      className="cyber-checkbox"
                     />
 
                     {alert.image && (
-                      <div style={{ position: 'relative' }}>
+                      <div className="log-thumbnail">
                         <img 
                           src={alert.image} 
                           alt="Thumbnail" 
-                          style={{ width: '120px', height: '90px', objectFit: 'cover', border: '1px solid var(--border-glow)', display: 'block' }} 
                         />
                       </div>
                     )}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <span style={{ color: 'var(--alert-red)', fontWeight: 'bold', fontSize: '16px', marginBottom: '8px' }}>
+                    <div className="log-info">
+                      <span className="log-time">
                         [{alert.timestamp}]
                       </span>
-                      <span style={{ color: '#fff', fontSize: '14px' }}>
+                      <span className="log-msg">
                         {t(language, alert.msgKey || 'ANOMALY_DETECTED')}
                       </span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
-                        <span style={{ color: 'var(--border-glow)', fontSize: '12px', opacity: 0.8 }}>
+                      <div className="log-meta">
+                        <span className="log-details-link">
                           {'>'} {t(language, 'INCIDENT_DETAILS')}
                         </span>
                         {alert.agentDecision && (
-                          <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #00f0ff', color: '#00f0ff' }}>
+                          <span className="decision-badge">
                             {t(language, 'DECISION_SAVED')}
                           </span>
                         )}
                         {alert.exitDirection && alert.exitDirection !== 'LOST' && (
-                          <span style={{ fontSize: '10px', color: 'var(--alert-red)' }}>
+                          <span className="exit-badge">
                             {t(language, 'EXIT_DIR')} : {t(language, `EXIT_${alert.exitDirection}`)}
                           </span>
                         )}
@@ -312,18 +285,18 @@ export default function HistoryModal({ alerts, onClose, onClear, onDeleteSelecte
               )}
             </div>
 
-            <div style={{ padding: '15px 20px', borderTop: '1px solid rgba(0, 240, 255, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0, 240, 255, 0.05)' }}>
-              <div style={{ display: 'flex', gap: '10px' }}>
+            <div className="log-list-footer">
+              <div className="footer-actions">
                 {selectedIds.size > 0 && (
                   <button className="cyber-btn danger" onClick={handleDelete}>
                     <Trash2 size={16} />
-                    {t(language, 'DELETE_SELECTED')}
+                    <span>{t(language, 'DELETE_SELECTED')}</span>
                   </button>
                 )}
               </div>
-              <button className="cyber-btn danger" style={{ opacity: 0.6 }} onClick={() => { playClick(); onClear(); setSelectedAlert(null); }}>
+              <button className="cyber-btn danger clear-btn" onClick={() => { playClick(); onClear(); setSelectedAlert(null); }}>
                 <Trash2 size={16} />
-                {t(language, 'CLEAR_LOGS')}
+                <span>{t(language, 'CLEAR_LOGS')}</span>
               </button>
             </div>
           </>
