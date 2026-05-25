@@ -91,3 +91,41 @@ export function playVoiceAlarm(language, text) {
     window.speechSynthesis.speak(utterance);
   }
 }
+
+
+let ambientOsc = null;
+let ambientGain = null;
+
+export function startAmbientNoise() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (ambientOsc) return; // Already running
+
+  ambientOsc = audioCtx.createOscillator();
+  ambientGain = audioCtx.createGain();
+
+  // Low frequency hum (server room feel)
+  ambientOsc.type = 'sine';
+  ambientOsc.frequency.setValueAtTime(60, audioCtx.currentTime); // 60Hz hum
+
+  // Set very low volume
+  ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  ambientGain.gain.linearRampToValueAtTime(0.02, audioCtx.currentTime + 2); // Fade in over 2s
+
+  ambientOsc.connect(ambientGain);
+  ambientGain.connect(audioCtx.destination);
+  
+  ambientOsc.start();
+}
+
+export function stopAmbientNoise() {
+  if (ambientOsc && ambientGain) {
+    ambientGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); // Fade out over 1s
+    ambientOsc.stop(audioCtx.currentTime + 1);
+    
+    // Clean up references after fade out
+    setTimeout(() => {
+      ambientOsc = null;
+      ambientGain = null;
+    }, 1000);
+  }
+}

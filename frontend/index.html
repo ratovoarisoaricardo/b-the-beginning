@@ -10,12 +10,59 @@
     <meta name="author" content="RATOVOARISOA MENDRIKA MANJAKA RICARDO" />
     <meta name="copyright" content="© 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO — Projet Personnel" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#01050a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/manifest.json" />
     <title>RIS Surveillance</title>
     <script src="/mediapipe/drawing_utils/drawing_utils.js"></script>
     <script src="/mediapipe/pose/pose.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('SW registered');
+          }).catch(registrationError => {
+            console.log('SW registration failed');
+          });
+        });
+      }
+
+      // Anti-Clone (Domain Lock)
+      const allowedDomains = ['localhost', '127.0.0.1', 'netlify.app', 'vercel.app', 'github.io'];
+      const currentDomain = window.location.hostname;
+      const isAllowed = allowedDomains.some(domain => currentDomain.includes(domain));
+      if (!isAllowed) {
+          document.documentElement.innerHTML = "<body style='background:#000;color:red;display:flex;align-items:center;justify-content:center;height:100vh;font-family:monospace;text-align:center;'><h1>🚨 ALERTE DE SÉCURITÉ 🚨<br><br>CLONE NON AUTORISÉ DÉTECTÉ.<br>PROPRIÉTÉ EXCLUSIVE DE RATOVOARISOA MENDRIKA MANJAKA RICARDO.</h1></body>";
+          throw new Error("Unauthorized clone");
+      }
+
+      // Anti-Theft / Source Code Protection Script
+      document.addEventListener('contextmenu', event => event.preventDefault()); // Block Right-Click
+      document.addEventListener('keydown', function(e) {
+        // Block F12
+        if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+        // Block Ctrl+Shift+I (Inspect)
+        if (e.ctrlKey && e.shiftKey && e.key === 'I') { e.preventDefault(); return false; }
+        // Block Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && e.key === 'J') { e.preventDefault(); return false; }
+        // Block Ctrl+Shift+C (Element Picker)
+        if (e.ctrlKey && e.shiftKey && e.key === 'C') { e.preventDefault(); return false; }
+        // Block Ctrl+U (View Source)
+        if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return false; }
+      });
+
+      // Anti-Screenshot (Basic PrintScreen Blocker)
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'PrintScreen') {
+          navigator.clipboard.writeText('⚠️ Avertissement de Sécurité : Les captures d'écran sont strictement interdites sur ce système RIS.');
+          alert('⚠️ ALERTE : Tentative de capture d'écran bloquée et signalée.');
+        }
+      });
+    </script>
   </head>
-  <body>
+  <body style="-webkit-user-select: none; user-select: none;">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -11,7 +11,7 @@ import AlertPanel from './components/AlertPanel'
 import ControlPanel from './components/ControlPanel'
 import HistoryModal from './components/HistoryModal'
 import { ShieldAlert, Activity, Database, Terminal, Power, Play, Square } from 'lucide-react'
-import { playBoot, playClick } from './utils/soundEffects'
+import { playBoot, playClick, startAmbientNoise, stopAmbientNoise } from './utils/soundEffects'
 import { t } from './utils/translations'
 
 function App() {
@@ -25,14 +25,24 @@ function App() {
   const [videoUrl, setVideoUrl] = useState('')
   const [selectedDeviceId, setSelectedDeviceId] = useState('')
   
+  const [primaryCam, setPrimaryCam] = useState('CAM-01')
+  const [cameraSources, setCameraSources] = useState({
+    'CAM-01': 'webcam',
+    'CAM-02': 'mall_people',
+    'CAM-03': 'traffic_cars',
+    'CAM-04': 'face_tracking'
+  })
+  
   const [language, setLanguage] = useState('fr')
   const [alarmMode, setAlarmMode] = useState('siren') // 'siren', 'stealth', 'voice'
   const [agentPhone, setAgentPhone] = useState('')
+  const [globalLockdown, setGlobalLockdown] = useState(false)
 
   const handleStartBoot = () => {
     if (bootStage !== 0) return
     setBootStage(1)
     playBoot()
+    startAmbientNoise()
     
     const sequence = [
       t(language, 'BOOT_1'),
@@ -103,7 +113,13 @@ function App() {
   const handleAnomaly = useCallback((alertData) => {
     setAlerts(prev => [alertData, ...prev])
     setIsAnomaly(true)
+    setGlobalLockdown(true)
     setTimeout(() => setIsAnomaly(false), 2000)
+    setTimeout(() => setGlobalLockdown(false), 8000)
+  }, [])
+
+  const handleDeleteAlert = useCallback((id) => {
+    setAlerts(prev => prev.filter(alert => alert.id !== id))
   }, [])
 
   const handleClearAlerts = useCallback(() => {
@@ -196,21 +212,57 @@ function App() {
           />
 
           <div className="camera-grid">
-            
-            <div className="primary-camera">
-              <SmartCamera 
-                onAnomaly={handleAnomaly} 
-                isDetectionActive={isDetectionActive}
-                videoUrl={videoUrl}
-                selectedDeviceId={selectedDeviceId}
-                language={language}
-                alarmMode={alarmMode}
-              />
-            </div>
-            
-            <DummyCamera name="CAM-02" />
-            <DummyCamera name="CAM-03" />
-            <DummyCamera name="CAM-04" />
+            {['CAM-01', 'CAM-02', 'CAM-03', 'CAM-04'].map((camId) => {
+              const isPrimary = primaryCam === camId;
+              return (
+                <div 
+                  key={camId} 
+                  className={isPrimary ? "primary-camera" : "secondary-camera"}
+                  onClick={() => !isPrimary && setPrimaryCam(camId)}
+                  style={{ position: 'relative', cursor: isPrimary ? 'default' : 'pointer' }}
+                >
+                  <div style={{ position: 'absolute', top: 5, left: 5, zIndex: 50, display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                    <select 
+                      className="camera-source-select" 
+                      value={cameraSources[camId]} 
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCameraSources(prev => ({ ...prev, [camId]: val }));
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <option value="webcam">{t(language, 'WEBCAM_SOURCE')}</option>
+                      <option value="mall_people">Simulation: Centre Commercial</option>
+                      <option value="classroom">Simulation: Salle de Classe</option>
+                      <option value="face_tracking">Simulation: Suivi Facial</option>
+                      <option value="traffic_cars">Simulation: Trafic Routier</option>
+                      <option value="industrial_bolt">Simulation: Usine / Ligne de prod.</option>
+                      
+                      <option value="store_aisle">Simulation: Magasin & Rayons</option>
+                      <option value="pedestrian_track">Simulation: Suivi Piétons (Extérieur)</option>
+                      <option value="worker_zone">Simulation: Zone de Chantier</option>
+                      <option value="bottle_detection">Simulation: Convoyeur Bouteilles</option>
+                      <option value="long_indoor">Test Long (12min) : Intérieur</option>
+                      <option value="long_outdoor">Test Long (14min) : Extérieur</option>
+                    </select>
+                    <div className="camera-badge" style={{ position: 'absolute', top: '8px', right: '-80px', zIndex: 50, background: 'rgba(0,0,0,0.7)', border: `1px solid ${isPrimary ? 'var(--border-glow)' : 'var(--text-dim)'}`, padding: '2px 6px', fontSize: '10px', color: isPrimary ? 'var(--border-glow)' : 'var(--text-dim)' }}>
+                      {camId} {isPrimary ? '[MAIN]' : ''}
+                    </div>
+                  </div>
+                  {!isPrimary && <div className="camera-hover-overlay" />}
+                  <SmartCamera 
+                    camName={camId}
+                    sourceType={cameraSources[camId]}
+                    onAnomaly={handleAnomaly} 
+                    isDetectionActive={isDetectionActive}
+                    videoUrl={isPrimary ? videoUrl : ''}
+                    selectedDeviceId={camId === 'CAM-01' ? selectedDeviceId : ''}
+                    language={language}
+                    alarmMode={alarmMode}
+                  />
+                </div>
+              );
+            })}
           </div>
 
         </div>
@@ -223,12 +275,39 @@ function App() {
               <span>{t(language, 'FULL_LOGS')}</span>
             </button>
           </div>
-          <AlertPanel alerts={alerts.slice(0, 10)} language={language} />
+          <AlertPanel alerts={alerts.slice(0, 10)} language={language} onDismiss={handleDeleteAlert} />
         </div>
 
       </div>
 
+      
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        pointerEvents: 'none',
+        zIndex: 9999,
+        opacity: 0.03,
+        display: 'flex',
+        flexWrap: 'wrap',
+        overflow: 'hidden',
+        userSelect: 'none'
+      }}>
+        {Array.from({ length: 50 }).map((_, i) => (
+          <div key={i} style={{
+            color: '#fff',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            transform: 'rotate(-30deg)',
+            margin: '40px',
+            whiteSpace: 'nowrap',
+            fontFamily: 'monospace'
+          }}>
+            CONFIDENTIAL - RATOVOARISOA M.M.R.
+          </div>
+        ))}
+      </div>
       <div className="system-copyright">
+
         © 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO — {t(language, 'ALL_RIGHTS')}
       </div>
 
