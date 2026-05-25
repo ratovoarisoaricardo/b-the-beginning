@@ -191,8 +191,10 @@ function App() {
               className="shutdown-btn" 
               onClick={handleShutdown}
               title={t(language, 'SHUTDOWN')}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 15px', background: 'rgba(255, 0, 60, 0.15)', color: '#ff003c', border: '1px solid #ff003c', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', textTransform: 'uppercase' }}
             >
-              <Power size={20} />
+              <Power size={18} />
+              <span>{t(language, 'SHUTDOWN')}</span>
             </button>
           </div>
           
