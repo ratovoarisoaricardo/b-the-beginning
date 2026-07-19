@@ -1,60 +1,35 @@
-# RIS Surveillance System (Reconnaissance & Intelligence System)
+# B-The Beginning 🚀
 
-A futuristic, cyberpunk-themed surveillance application using React (frontend) and Flask with MediaPipe (backend) for real-time human pose analysis and anomaly detection.
+![Aperçu du projet / Project Preview](preview.gif)
 
-## Features
-- **Real-time Pose Detection**: Monitors human movement via local or remote cameras.
-- **Anomaly Detection**: Detects suspicious gestures (e.g., hands raised above the head).
-- **Cyberpunk HUD**: Immersive user interface with interactive logs and alerts.
-- **Multi-language Support**: English and French translations.
-- **History Management**: Review and manage detected incidents.
+> **Note:** Replace `preview.gif` with your actual screenshot or GIF. / *Remplacez `preview.gif` par votre vraie capture d'écran ou GIF.*
 
-## Installation
+---
 
-### Prerequisites
-- Python 3.10+
-- Node.js & npm
+## 🇬🇧 English
 
-### Backend Setup
-1. Navigate to the `backend` directory:
-   ```bash
-   cd backend
-   ```
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-3. Activate the virtual environment:
-   - Windows: `.\venv\Scripts\activate`
-   - Linux/Mac: `source venv/bin/activate`
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Run the server:
-   ```bash
-   python app.py
-   ```
+### 📖 What it does
+A full-stack web project with dedicated frontend and backend services.
 
-### Frontend Setup
-1. Navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
+### 🛠️ Technologies
+**Node.js, JavaScript, HTML/CSS**
 
-## Usage
-- Open your browser to the local URL provided by Vite (usually `http://localhost:5173`).
-- Follow the on-screen boot sequence to initialize the system.
-- Select your camera source in the control panel.
+### 💻 How to install & run locally
+```bash
+start.bat
+```
 
-## License
-Copyright © 2026 RATOVOARISOA MENDRIKA MANJAKA RICARDO.
-Tous droits réservés. Voir le fichier `LICENSE` pour plus de détails.
+---
+
+## 🇫🇷 Français
+
+### 📖 Ce que fait le projet
+Un projet web full-stack avec des services frontend et backend dédiés.
+
+### 🛠️ Technologies
+**Node.js, JavaScript, HTML/CSS**
+
+### 💻 Comment installer et lancer localement
+```bash
+start.bat
+```
